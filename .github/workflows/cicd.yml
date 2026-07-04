@@ -16,8 +16,8 @@ jobs:
             - name: Docker login
               uses: docker/login-action@v3
               with: 
-                username:gloriab
-                password:${{secret.DOCKER_PASS}}
+                username: gloriab
+                password: ${{ secrets.DOCKER_PASS }}
             - name: Push image
               run:
                 docker push gloriab/cicd-portfolio 
