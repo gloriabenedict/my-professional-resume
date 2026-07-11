@@ -42,3 +42,16 @@ jobs:
 
              - name: push image to ecr
                run: docker push  ${{ secrets.ECR_REPO }}/myrepo:latest
+    
+    
+    Deploy_to_ecs:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+              with:
+                 aws-region: us-east-1
+                 role-to-assume: ${{ secrets.AWS_ROLE }}
+            - name: Deploy to ECS
+              run: echo "Deploy to ECS"
+        
