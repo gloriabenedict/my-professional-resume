@@ -53,6 +53,20 @@ jobs:
               with:
                  aws-region: us-east-1
                  role-to-assume: ${{ secrets.AWS_ROLE }}
+              - name: Render new task definition
+                        id: render-task-def
+                        uses: aws-actions/amazon-ecs-render-task-definition@v1
+                        with:
+                          task-definition: .github/task-definition.json
+                          container-name: myrepo
+                          image: ${{ secrets.ECR_REPO }}/myrepo:latest
+
+        
             - name: Deploy to ECS
-              run: echo "Deploy to ECS"
+              uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+              with:
+              task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+              service: myrepo_task-service-ki6mfw5h
+              cluster: my_action
+              wait-for-service-stability: true
         
